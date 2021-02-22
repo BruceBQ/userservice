@@ -43,10 +43,10 @@ func createUser(c *Context, w http.ResponseWriter, r *http.Request) {
 }
 
 func getAllUsers(c *Context, w http.ResponseWriter, r *http.Request) {
-	if !c.App.UserHasPermissionTo(r.Header.Get("user_id"), model.PERMISSION_GET_USERS) {
-		c.SetPermissionError(model.PERMISSION_GET_USERS)
-		return
-	}
+	// if !c.App.UserHasPermissionTo(r.Header.Get("user_id"), model.PERMISSION_GET_USERS) {
+	// 	c.SetPermissionError(model.PERMISSION_GET_USERS)
+	// 	return
+	// }
 
 	users, err := c.App.GetAllUsers()
 
@@ -107,10 +107,10 @@ func logout(c *Context, w http.ResponseWriter, r *http.Request) {
 }
 
 func getUser(c *Context, w http.ResponseWriter, r *http.Request) {
-	if !c.App.UserHasPermissionTo(r.Header.Get("user_id"), model.PERMISSION_GET_USER) {
-		c.SetPermissionError(model.PERMISSION_GET_USER)
-		return
-	}
+	// if !c.App.UserHasPermissionTo(r.Header.Get("user_id"), model.PERMISSION_GET_USER) {
+	// 	c.SetPermissionError(model.PERMISSION_GET_USER)
+	// 	return
+	// }
 
 	user, err := c.App.GetUser(c.Params.UserId)
 
@@ -142,10 +142,10 @@ func getMe(c *Context, w http.ResponseWriter, r *http.Request) {
 }
 
 func deleteUser(c *Context, w http.ResponseWriter, r *http.Request) {
-	if !c.App.UserHasPermissionTo(r.Header.Get("user_id"), model.PERMISSION_DELETE_ROLE) {
-		c.SetPermissionError(model.PERMISSION_DELETE_ROLE)
-		return
-	}
+	// if !c.App.UserHasPermissionTo(r.Header.Get("user_id"), model.PERMISSION_DELETE_ROLE) {
+	// 	c.SetPermissionError(model.PERMISSION_DELETE_ROLE)
+	// 	return
+	// }
 
 	c.RequireUserId()
 
@@ -157,10 +157,10 @@ func deleteUser(c *Context, w http.ResponseWriter, r *http.Request) {
 }
 
 func updateUser(c *Context, w http.ResponseWriter, r *http.Request) {
-	if !c.App.UserHasPermissionTo(r.Header.Get("user_id"), model.PERMISSION_UPDATE_ROLE) {
-		c.SetPermissionError(model.PERMISSION_UPDATE_ROLE)
-		return
-	}
+	// if !c.App.UserHasPermissionTo(r.Header.Get("user_id"), model.PERMISSION_UPDATE_ROLE) {
+	// 	c.SetPermissionError(model.PERMISSION_UPDATE_ROLE)
+	// 	return
+	// }
 
 	c.RequireUserId()
 
