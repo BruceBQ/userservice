@@ -1,0 +1,27 @@
+{
+  "ServiceSettings": {
+    "SiteURL": "",
+    "HTTPAddress": ":9007",
+    "GRPCAddress": ":50052",
+    "SessionLengthWebInDays": 15,
+    "SessionLengthMobileInDays": 15
+  },
+  "GRPCSettings": {
+    "CameraServiceAddress": "10.49.46.251:50052",
+    "NotificationServiceAddress": "10.49.46.251:50053"
+  },
+  "MongoSettings": {
+    "Address": "103.101.76.162:30017",
+    "Username": "admin",
+    "Password": "centic.vn",
+    "Database": "users"
+  },
+  "RedisSettings": {
+    "Address": "103.101.76.162:30010",
+    "Password": "",
+    "DB": 0
+  },
+  "LogSettings": {
+    "KafkaBroker": ""
+  }
+}

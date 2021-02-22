@@ -1,0 +1,81 @@
+syntax = "proto3";
+option go_package="userservice/pb";
+
+package parking;
+
+message Empty {}
+
+enum StatusCode {
+    UNKNOW = 0;
+    OK = 200;
+    FORBIDDEN = 403;
+    NOT_FOUND = 404;
+    METHOD_NOT_ALLOW = 405;
+    INTERNAL_ERROR = 500;
+}
+
+service UserService {
+    rpc SessionHasPermissionTo(Session) returns (AuthorizationResult) {}
+    rpc SessionHasPermissionToCamera(SessionCamera) returns (AuthorizationResult) {}
+    rpc GetCamerasByUserId(UserId) returns (CameraList) {}
+    rpc DeleteCameraFromUser(CameraId) returns (Empty) {}
+}
+
+message Session {
+    string token = 1;
+    string userId = 3;
+    string permissionName = 2;
+}
+
+message SessionCamera {
+    string token = 1;
+    string userId = 2;
+    string permissionName = 3;
+    string cameraId = 4;
+}
+
+message AuthorizationResult {
+    StatusCode statusCode = 1;
+    string message = 2;
+}
+
+message UserId {
+    string userId = 1;
+}
+
+message CameraId {
+    string cameraId = 1;
+}
+
+message CameraList {
+    repeated string cameras = 1;
+}
+
+service Notification{}
+
+service Object{}
+
+service Camera {
+    rpc Get (GetCameraRequest) returns (GetCameraReply) {}
+}
+
+message GetCameraRequest {
+    map<string, string> ids = 1;
+}
+  
+message GetCameraReply {
+    map<string, CameraData> cameras = 1;
+}
+  
+message CameraData {
+    string id = 1;
+    string name = 2;
+    string address = 3;
+    double lat = 4;
+    double lng = 5;
+}
+
+service Parking {
+}
+
+service Post {}
