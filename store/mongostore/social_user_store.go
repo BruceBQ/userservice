@@ -73,6 +73,21 @@ func (su MongoSocialUserStore) GetByEmail(email string) (*model.SocialUser, erro
 	return &user, nil
 }
 
+func (su MongoSocialUserStore) GetByEmailAndAuthType(email string, authType string) (*model.SocialUser, error) {
+	filter := bson.M{"email": email, "authType": authType}
+	user := model.SocialUser{}
+
+	if err := su.Db.Collection(su.CollectionName).FindOne(context.Background(), filter).Decode(&user); err != nil {
+		if err == mongo.ErrNoDocuments {
+			return nil, store.NewErrNotFound("Social User", fmt.Sprintf("email=%s", email))
+		}
+
+		return nil, errors.Wrapf(err, "failed to get User with email=%s", email)
+	}
+
+	return &user, nil
+}
+
 func (su MongoSocialUserStore) AddPlateNumber(id string, plateNumber string) error {
 	hexID, errID := primitive.ObjectIDFromHex(id)
 	if errID != nil {

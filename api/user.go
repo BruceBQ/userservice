@@ -22,6 +22,11 @@ func (api *API) InitUser() {
 }
 
 func createUser(c *Context, w http.ResponseWriter, r *http.Request) {
+	if !c.App.UserHasPermissionTo(r.Header.Get("user_id"), model.PERMISSION_GET_USERS) {
+		c.SetPermissionError(model.PERMISSION_CREATE_USER)
+		return
+	}
+
 	user := model.UserFromJSON(r.Body)
 
 	errmap := user.Validate()
@@ -43,10 +48,10 @@ func createUser(c *Context, w http.ResponseWriter, r *http.Request) {
 }
 
 func getAllUsers(c *Context, w http.ResponseWriter, r *http.Request) {
-	// if !c.App.UserHasPermissionTo(r.Header.Get("user_id"), model.PERMISSION_GET_USERS) {
-	// 	c.SetPermissionError(model.PERMISSION_GET_USERS)
-	// 	return
-	// }
+	if !c.App.UserHasPermissionTo(r.Header.Get("user_id"), model.PERMISSION_GET_USERS) {
+		c.SetPermissionError(model.PERMISSION_GET_USERS)
+		return
+	}
 
 	users, err := c.App.GetAllUsers()
 
@@ -107,10 +112,10 @@ func logout(c *Context, w http.ResponseWriter, r *http.Request) {
 }
 
 func getUser(c *Context, w http.ResponseWriter, r *http.Request) {
-	// if !c.App.UserHasPermissionTo(r.Header.Get("user_id"), model.PERMISSION_GET_USER) {
-	// 	c.SetPermissionError(model.PERMISSION_GET_USER)
-	// 	return
-	// }
+	if !c.App.UserHasPermissionTo(r.Header.Get("user_id"), model.PERMISSION_GET_USER) {
+		c.SetPermissionError(model.PERMISSION_GET_USER)
+		return
+	}
 
 	user, err := c.App.GetUser(c.Params.UserId)
 
@@ -125,14 +130,15 @@ func getUser(c *Context, w http.ResponseWriter, r *http.Request) {
 }
 
 func getMe(c *Context, w http.ResponseWriter, r *http.Request) {
-	// if r.Header.Get("user_id") == "" {
-	// 	c.Err = model.NewAppError("", "", "empty user", nil, "", http.StatusBadGateway)
-	// 	return
-	// }
+	if r.Header.Get("user_id") == "" {
+		c.Err = model.NewAppError("", "", "empty user", nil, "", http.StatusBadGateway)
+		return
+	}
 
 	c.RequireUserIdFromHeader(r.Header.Get("user_id"))
 
 	ruser, err := c.App.GetMe(r.Header.Get("user_id"))
+
 	if err != nil {
 		c.Err = err
 		return
@@ -142,10 +148,10 @@ func getMe(c *Context, w http.ResponseWriter, r *http.Request) {
 }
 
 func deleteUser(c *Context, w http.ResponseWriter, r *http.Request) {
-	// if !c.App.UserHasPermissionTo(r.Header.Get("user_id"), model.PERMISSION_DELETE_ROLE) {
-	// 	c.SetPermissionError(model.PERMISSION_DELETE_ROLE)
-	// 	return
-	// }
+	if !c.App.UserHasPermissionTo(r.Header.Get("user_id"), model.PERMISSION_DELETE_ROLE) {
+		c.SetPermissionError(model.PERMISSION_DELETE_ROLE)
+		return
+	}
 
 	c.RequireUserId()
 
@@ -157,10 +163,10 @@ func deleteUser(c *Context, w http.ResponseWriter, r *http.Request) {
 }
 
 func updateUser(c *Context, w http.ResponseWriter, r *http.Request) {
-	// if !c.App.UserHasPermissionTo(r.Header.Get("user_id"), model.PERMISSION_UPDATE_ROLE) {
-	// 	c.SetPermissionError(model.PERMISSION_UPDATE_ROLE)
-	// 	return
-	// }
+	if !c.App.UserHasPermissionTo(r.Header.Get("user_id"), model.PERMISSION_UPDATE_ROLE) {
+		c.SetPermissionError(model.PERMISSION_UPDATE_ROLE)
+		return
+	}
 
 	c.RequireUserId()
 

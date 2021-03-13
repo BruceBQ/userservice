@@ -15,10 +15,10 @@ func (api *API) InitRole() {
 }
 
 func getAllRoles(c *Context, w http.ResponseWriter, r *http.Request) {
-	// if !c.App.UserHasPermissionTo(r.Header.Get("user_id"), model.PERMISSION_GET_ROLES) {
-	// 	c.SetPermissionError(model.PERMISSION_GET_ROLES)
-	// 	return
-	// }
+	if !c.App.UserHasPermissionTo(r.Header.Get("user_id"), model.PERMISSION_GET_ROLES) {
+		c.SetPermissionError(model.PERMISSION_GET_ROLES)
+		return
+	}
 
 	roles, pages, err := c.App.GetRoles()
 
@@ -39,10 +39,10 @@ func getAllRoles(c *Context, w http.ResponseWriter, r *http.Request) {
 }
 
 func createRole(c *Context, w http.ResponseWriter, r *http.Request) {
-	// if !c.App.UserHasPermissionTo(r.Header.Get("user_id"), model.PERMISSION_CREATE_ROLE) {
-	// 	c.SetPermissionError(model.PERMISSION_CREATE_ROLE)
-	// 	return
-	// }
+	if !c.App.UserHasPermissionTo(r.Header.Get("user_id"), model.PERMISSION_CREATE_ROLE) {
+		c.SetPermissionError(model.PERMISSION_CREATE_ROLE)
+		return
+	}
 
 	role := model.RoleFromJSON(r.Body)
 
@@ -64,10 +64,10 @@ func createRole(c *Context, w http.ResponseWriter, r *http.Request) {
 }
 
 func updateRole(c *Context, w http.ResponseWriter, r *http.Request) {
-	// if !c.App.UserHasPermissionTo(r.Header.Get("user_id"), model.PERMISSION_UPDATE_ROLE) {
-	// 	c.SetPermissionError(model.PERMISSION_UPDATE_ROLE)
-	// 	return
-	// }
+	if !c.App.UserHasPermissionTo(r.Header.Get("user_id"), model.PERMISSION_UPDATE_ROLE) {
+		c.SetPermissionError(model.PERMISSION_UPDATE_ROLE)
+		return
+	}
 
 	c.RequireRoleId()
 	if c.Err != nil {
@@ -92,10 +92,10 @@ func updateRole(c *Context, w http.ResponseWriter, r *http.Request) {
 }
 
 func getRole(c *Context, w http.ResponseWriter, r *http.Request) {
-	// if !c.App.UserHasPermissionTo(r.Header.Get("user_id"), model.PERMISSION_GET_ROLE) {
-	// 	c.SetPermissionError(model.PERMISSION_GET_ROLE)
-	// 	return
-	// }
+	if !c.App.UserHasPermissionTo(r.Header.Get("user_id"), model.PERMISSION_GET_ROLE) {
+		c.SetPermissionError(model.PERMISSION_GET_ROLE)
+		return
+	}
 
 	c.RequireRoleId()
 	if c.Err != nil {
@@ -123,10 +123,10 @@ func getRole(c *Context, w http.ResponseWriter, r *http.Request) {
 }
 
 func deleteRole(c *Context, w http.ResponseWriter, r *http.Request) {
-	// if !c.App.UserHasPermissionTo(r.Header.Get("user_id"), model.PERMISSION_DELETE_ROLE) {
-	// 	c.SetPermissionError(model.PERMISSION_DELETE_ROLE)
-	// 	return
-	// }
+	if !c.App.UserHasPermissionTo(r.Header.Get("user_id"), model.PERMISSION_DELETE_ROLE) {
+		c.SetPermissionError(model.PERMISSION_DELETE_ROLE)
+		return
+	}
 
 	c.RequireRoleId()
 	if c.Err != nil {

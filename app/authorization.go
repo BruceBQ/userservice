@@ -106,6 +106,33 @@ func (a *App) UserHasPermissionTo(userID string, permission *model.Permission) b
 	return false
 }
 
+func (a *App) UserHasPermissionToCamera(userID string, cameraID string, permission *model.Permission) bool {
+	if !a.UserHasPermissionTo(userID, permission) {
+		return false
+	}
+
+	cameras, err := a.GetCamerasByUserId(userID)
+	if err != nil {
+		return false
+	}
+
+	if len(cameras) == 0 {
+		return false
+	}
+
+	if len(cameras) == 1 && cameras[0] == "*" {
+		return true
+	}
+
+	for _, cam := range cameras {
+		if cam == cameraID {
+			return true
+		}
+	}
+
+	return false
+}
+
 func (a *App) RoleGrantPermission(role *model.Role, permission *model.Permission) bool {
 	if _, ok := role.Permissions[permission.Name]; ok {
 		return true
@@ -114,7 +141,7 @@ func (a *App) RoleGrantPermission(role *model.Role, permission *model.Permission
 	return false
 }
 
-func (a *App) SessionHasPermissionToCamera(session model.Session, cameraID string) *model.AppError {
+func (a *App) SessionHasPermissionToCamera(session model.Session, cameraID string, permission *model.Permission, userID string) *model.AppError {
 	return nil
 }
 

@@ -163,6 +163,7 @@ func (a *App) GetMe(userID string) (*model.User, *model.AppError) {
 		return nil, nil
 	}
 
-	fmt.Printf("User Page %v \n", user)
+	user.Sanitize(map[string]bool{})
+
 	return user, nil
 }

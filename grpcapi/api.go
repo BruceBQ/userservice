@@ -20,6 +20,8 @@ func Init(s *app.Server) *API {
 }
 
 func (api *API) SessionHasPermissionTo(ctx context.Context, data *pb.Session) (*pb.AuthorizationResult, error) {
+	fmt.Print("Receive grpc request")
+
 	err := api.App.MakeAuthenticationError()
 
 	if data.Token == "" || data.UserId == "" {
@@ -43,12 +45,26 @@ func (api *API) SessionHasPermissionTo(ctx context.Context, data *pb.Session) (*
 	}, nil
 }
 
-func (api *API) SessionHasPermissionToCamera(ctx context.Context, sessionCamera *pb.SessionCamera) (*pb.AuthorizationResult, error) {
-	return nil, nil
+func (api *API) SessionHasPermissionToCamera(ctx context.Context, data *pb.SessionCamera) (*pb.AuthorizationResult, error) {
+	err := api.App.MakeAuthenticationError()
+
+	permission, err1 := api.App.Srv().Store.Permission().GetByName(data.PermissionName)
+	if err1 != nil {
+		err.DetailedError = "Get permission failed, " + err.DetailedError
+		return nil, errors.New(err.ToJson())
+	}
+
+	if !api.App.UserHasPermissionToCamera(data.UserId, data.CameraId, permission) {
+		return nil, errors.New(api.App.MakePermissionError(permission).ToJson())
+	}
+
+	return &pb.AuthorizationResult{
+		StatusCode: pb.StatusCode_OK,
+		Message:    "Can Access",
+	}, nil
 }
 
 func (api *API) GetCamerasByUserId(ctx context.Context, data *pb.UserId) (*pb.CameraList, error) {
-	fmt.Printf("User %v data\n", data.UserId)
 	cameras, err := api.App.GetCamerasByUserId(data.UserId)
 	if err != nil {
 		return nil, errors.New(err.ToJson())

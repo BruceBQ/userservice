@@ -123,10 +123,6 @@ func (s *Server) Start() error {
 		s.HTTPServer.Serve(listener)
 	}()
 
-	// if err != nil {
-	// 	return err
-	// }
-
 	grpcAddr := *s.Config().ServiceSettings.GRPCAddress
 	gprcListner, _ := net.Listen("tcp", grpcAddr)
 
