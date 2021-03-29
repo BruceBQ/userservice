@@ -1,9 +1,6 @@
 db.permissions.drop();
 
 db.permissions.insertMany([
-  // Political
-  { name: "get_political", displayName: "Lấy danh sách địa giới hành chính", description: "" },
-
   // Parking
   { name: "get_parking", displayName: "Xem danh sách bãi đỗ xe", description: "" },
   { name: "create_parking", displayName: "Thêm bãi đỗ xe", description: "" },
@@ -11,7 +8,7 @@ db.permissions.insertMany([
   { name: "get_single_parking", displayName: "Xem thông tin bãi đỗ", description: "" },
   { name: "delete_parking", displayName: "Xóa bãi đỗ xe", description: "" },
   { name: "export_parking_report", displayName: "Xuất báo cáo danh sách bãi đỗ", description: "" },
-  { name: "update_empty_slots", displayName: "Cập nhật số vị trí trống của bãi đỗ", descriptions: "" },
+//   { name: "update_empty_slots", displayName: "Cập nhật số vị trí trống của bãi đỗ", descriptions: "" },
 
   // No parking
   { name: "get_no_parking", displayName: "Xem danh sách khu vực cấm đỗ", description: "" },
@@ -39,6 +36,7 @@ db.permissions.insertMany([
   { name: "export_violation_report", displayName: "Xuất biên bản vi phạm", description: "" },
   { name: "statistical_violations", displayName: "Thống kê vi phạm", description: "" },
   { name: "export_statistical_violations_report", displayName: "Xuất báo cáo thống kê vi phạm", description: "" },
+  { name: "get_video_violation", displayName: "Lấy video vi phạm", description: "" },
 
   // Videos
   { name: "get_videos", displayName: "Lấy danh sách video", description: "" },
@@ -54,6 +52,12 @@ db.permissions.insertMany([
   { name: "get_camera_zone", displayName: "Lấy danh sách các vùng nhận dạng", description: "" },
   { name: "ptz_control", displayName: "Điểu khiển PTZ" },
 
+  // Stream
+  { name: "get_stream", displayName: "Lấy thông tin stream một danh sách camera", description: "" },
+  { name: "get_single_stream", displayName: "Lấy thông tin stream một camera", description: "" },
+  { name: "edit_stream", displayName: "Chỉnh sửa thông tin stream camera", description: "" },
+  { name: "delete_stream", displayName: "Xóa stream camera", description: "" },
+
   // Roles
   { name: "get_roles", displayName: "Lấy danh sách nhóm người dùng", description: "" },
   { name: "get_single_role", displayName: "Lấy thông tin nhóm người dùng", description: "" },
@@ -68,18 +72,14 @@ db.permissions.insertMany([
   { name: "update_user", displayName: "Sửa thông tin người dùng", description: "" },
   { name: "delete_user", displayName: "Xóa người dùng", description: "" },
 
-  // Stream
-  { name: "get_stream", displayName: "Lấy thông tin stream một danh sách camera", description: "" },
-  { name: "get_single_stream", displayName: "Lấy thông tin stream một camera", description: "" },
-  { name: "edit_stream", displayName: "Chỉnh sửa thông tin stream camera", description: "" },
-  { name: "delete_stream", displayName: "Xóa stream camera", description: "" },
+  
 
   // Parking Fee ???
-  { name: "fee", displayName: "Quản lý thu phí", description: "" },
+//   { name: "fee", displayName: "Quản lý thu phí", description: "" },
 
   // Notifications
-  { name: "get_notifications", displayName: "Xem danh sách thông báo", description: "" },
-  { name: "mark_read", displayName: "Đánh dấu thông báo là đã đọc", description: "" },
+//   { name: "get_notifications", displayName: "Xem danh sách thông báo", description: "" },
+//   { name: "mark_read", displayName: "Đánh dấu thông báo là đã đọc", description: "" },
 
   // Local Computer
 

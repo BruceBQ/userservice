@@ -44,6 +44,7 @@ db.pages.insertMany([
       upapprove_violation: {},
       edit_violation: {},
       delete_violations: {},
+      get_video_violation: {},
       export_violation_report: {},
       export_statistical_violations_report: {},
     },
@@ -51,7 +52,7 @@ db.pages.insertMany([
 
   // Video
   {
-    name: "video",
+    name: "record_videos",
     displayName: "Quản lý video",
     path: "/admin/videos",
     description: "",
@@ -110,6 +111,7 @@ db.pages.insertMany([
       get_single_camera: {},
       add_camera: {},
       edit_camera: {},
+      ptz_control: {},
       delete_camera: {},
     },
   },
