@@ -28,6 +28,9 @@ db.permissions.insertMany([
   { name: "delete_post", displayName: "Xóa tin tức", description: "" },
 
   // Violations
+  { name: "get_vehicletype", displayName: "Lấy danh sách loại phương tiện" },
+  { name: "upload_file", displayName: "Upload ảnh/video vi phạm" },
+  { name: "create_violation", displayName: "Thêm vi phạm" },
   { name: "get_violations", displayName: "Lấy danh sách vi phạm", description: "" },
   { name: "approve_violation", displayName: "Duyệt vi phạm", description: "" },
   { name: "upapprove_violation", displayName: "Bỏ duyệt vi phạm vi phạm", description: "" },
@@ -49,6 +52,7 @@ db.permissions.insertMany([
   { name: "delete_camera", displayName: "Xóa camera", description: "" },
   { name: "get_camera_group", displayName: "Lấy danh sách nhóm camera", description: "" },
   { name: "get_camera_zone", displayName: "Lấy danh sách các vùng nhận dạng", description: "" },
+  { name: "ptz_control", displayName: "Điểu khiển PTZ" },
 
   // Roles
   { name: "get_roles", displayName: "Lấy danh sách nhóm người dùng", description: "" },

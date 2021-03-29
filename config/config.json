@@ -11,13 +11,13 @@
     "NotificationServiceAddress": "10.49.46.251:50053"
   },
   "MongoSettings": {
-    "Address": "103.101.76.162:30017",
+    "Address": "10.49.46.251:30017",
     "Username": "admin",
     "Password": "centic.vn",
     "Database": "users"
   },
   "RedisSettings": {
-    "Address": "103.101.76.162:30010",
+    "Address": "10.49.46.251:30010",
     "Password": "",
     "DB": 0
   },
