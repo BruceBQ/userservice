@@ -19,6 +19,11 @@ service UserService {
     rpc SessionHasPermissionToCamera(SessionCamera) returns (AuthorizationResult) {}
     rpc GetCamerasByUserId(UserId) returns (CameraList) {}
     rpc DeleteCameraFromUser(CameraId) returns (Empty) {}
+    rpc LogAudit(AuditData) returns (String) {}
+}
+
+message String {
+    string response = 1;
 }
 
 message Session {
@@ -49,6 +54,12 @@ message CameraId {
 
 message CameraList {
     repeated string cameras = 1;
+}
+
+message AuditData {
+    string userId = 1;
+    string permissionName = 2;
+    string data = 3;
 }
 
 service Notification{}

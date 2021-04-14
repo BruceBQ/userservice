@@ -21,6 +21,7 @@ type UserServiceClient interface {
 	SessionHasPermissionToCamera(ctx context.Context, in *SessionCamera, opts ...grpc.CallOption) (*AuthorizationResult, error)
 	GetCamerasByUserId(ctx context.Context, in *UserId, opts ...grpc.CallOption) (*CameraList, error)
 	DeleteCameraFromUser(ctx context.Context, in *CameraId, opts ...grpc.CallOption) (*Empty, error)
+	LogAudit(ctx context.Context, in *AuditData, opts ...grpc.CallOption) (*String, error)
 }
 
 type userServiceClient struct {
@@ -67,6 +68,15 @@ func (c *userServiceClient) DeleteCameraFromUser(ctx context.Context, in *Camera
 	return out, nil
 }
 
+func (c *userServiceClient) LogAudit(ctx context.Context, in *AuditData, opts ...grpc.CallOption) (*String, error) {
+	out := new(String)
+	err := c.cc.Invoke(ctx, "/parking.UserService/LogAudit", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // UserServiceServer is the server API for UserService service.
 // All implementations must embed UnimplementedUserServiceServer
 // for forward compatibility
@@ -75,6 +85,7 @@ type UserServiceServer interface {
 	SessionHasPermissionToCamera(context.Context, *SessionCamera) (*AuthorizationResult, error)
 	GetCamerasByUserId(context.Context, *UserId) (*CameraList, error)
 	DeleteCameraFromUser(context.Context, *CameraId) (*Empty, error)
+	LogAudit(context.Context, *AuditData) (*String, error)
 	mustEmbedUnimplementedUserServiceServer()
 }
 
@@ -93,6 +104,9 @@ func (UnimplementedUserServiceServer) GetCamerasByUserId(context.Context, *UserI
 }
 func (UnimplementedUserServiceServer) DeleteCameraFromUser(context.Context, *CameraId) (*Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteCameraFromUser not implemented")
+}
+func (UnimplementedUserServiceServer) LogAudit(context.Context, *AuditData) (*String, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method LogAudit not implemented")
 }
 func (UnimplementedUserServiceServer) mustEmbedUnimplementedUserServiceServer() {}
 
@@ -179,6 +193,24 @@ func _UserService_DeleteCameraFromUser_Handler(srv interface{}, ctx context.Cont
 	return interceptor(ctx, in, info, handler)
 }
 
+func _UserService_LogAudit_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AuditData)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServiceServer).LogAudit(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/parking.UserService/LogAudit",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServiceServer).LogAudit(ctx, req.(*AuditData))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 var _UserService_serviceDesc = grpc.ServiceDesc{
 	ServiceName: "parking.UserService",
 	HandlerType: (*UserServiceServer)(nil),
@@ -198,6 +230,10 @@ var _UserService_serviceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "DeleteCameraFromUser",
 			Handler:    _UserService_DeleteCameraFromUser_Handler,
+		},
+		{
+			MethodName: "LogAudit",
+			Handler:    _UserService_LogAudit_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

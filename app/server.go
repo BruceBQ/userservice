@@ -1,12 +1,12 @@
 package app
 
 import (
-	"fmt"
 	"net"
 	"net/http"
 	"sync"
 	"userservice/clog"
 	"userservice/config"
+	"userservice/jobs"
 	"userservice/services/grpcservice"
 	"userservice/store"
 	"userservice/store/mongostore"
@@ -38,6 +38,8 @@ type Server struct {
 	GRPCServer  *grpc.Server
 	GRPCService *grpcservice.GRPCService
 	Log         *clog.Logger
+
+	Jobs *jobs.JobServer
 }
 
 func NewServer(options ...Option) (*Server, error) {
@@ -85,7 +87,7 @@ func NewServer(options ...Option) (*Server, error) {
 
 	// s.GRPCService = grpcservice.Init(s.Config().GRPCSettings)
 	s.Router = s.RootRouter.PathPrefix("/").Subrouter()
-	fmt.Printf("Redis settings %v \n", *s.Config().RedisSettings.Address)
+
 	if s.SessionCache == nil {
 		client := redis.NewClient(&redis.Options{
 			Addr:     *s.Config().RedisSettings.Address,
@@ -94,6 +96,8 @@ func NewServer(options ...Option) (*Server, error) {
 		})
 		s.SessionCache = client
 	}
+
+	s.InitJobs()
 
 	return s, nil
 }
@@ -163,5 +167,19 @@ func (s *Server) StopGRPCServer() {
 	if s.GRPCServer != nil {
 		s.GRPCServer.Stop()
 		s.GRPCServer = nil
+	}
+}
+
+func (s *Server) InitJobs() {
+	s.Jobs = jobs.NewJobServer(s.Store)
+}
+
+func (s *Server) RunJobs() {
+	if err := s.Jobs.StartWorkers(); err != nil {
+		clog.Error("Failed to start job server workers" + err.Error())
+	}
+
+	if err := s.Jobs.StartSchedulers(); err != nil {
+		clog.Error("Failed to start job server schedulers" + err.Error())
 	}
 }

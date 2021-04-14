@@ -183,6 +183,18 @@ db.pages.insertMany([
     },
   },
 
+  // Audit Logs
+  {
+    name: "audit_logs",
+    displayName: "Nhật ký chỉnh sửa",
+    path: "/admin/audit_logs",
+    description: "",
+    isSettings: true,
+    permissions: {
+      get_audit_logs: { compulsory: true },
+    },
+  },
+
   // Cài đặt hệ thống
   {
     name: "settings",

@@ -32,6 +32,8 @@ var PERMISSION_GET_USER *Permission
 var PERMISSION_DELETE_USER *Permission
 var PERMISSION_UPDATE_USER *Permission
 
+var PERMISSION_GET_AUDIT_LOGS *Permission
+
 func initializePermissions() {
 	PERMISSION_GET_PERMISSIONS = &Permission{
 		Name: "get_permissions",
@@ -65,6 +67,9 @@ func initializePermissions() {
 	}
 	PERMISSION_UPDATE_USER = &Permission{
 		Name: "update_user",
+	}
+	PERMISSION_GET_AUDIT_LOGS = &Permission{
+		Name: "get_audit_logs",
 	}
 }
 

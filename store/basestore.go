@@ -8,6 +8,7 @@ type BaseStore struct {
 	PermissionStore PermissionStore
 	RoleStore       RoleStore
 	SessionStore    SessionStore
+	AuditStore      AuditStore
 }
 
 func (s *BaseStore) User() UserStore {
@@ -34,6 +35,10 @@ func (s *BaseStore) Session() SessionStore {
 	return s.SessionStore
 }
 
+func (s *BaseStore) Audit() AuditStore {
+	return s.AuditStore
+}
+
 func New(childStore Store) *BaseStore {
 	newStore := BaseStore{}
 
@@ -43,5 +48,7 @@ func New(childStore Store) *BaseStore {
 	newStore.PermissionStore = childStore.Permission()
 	newStore.RoleStore = childStore.Role()
 	newStore.SessionStore = childStore.Session()
+	newStore.AuditStore = childStore.Audit()
+
 	return &newStore
 }

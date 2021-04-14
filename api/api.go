@@ -16,6 +16,8 @@ type Routes struct {
 
 	Auth *mux.Router // 'api/v1/author'
 
+	Audit *mux.Router // api/v1/audit_logs
+
 	Users *mux.Router // 'api/v1/users'
 	User  *mux.Router // 'api/v1/users/{user_id:[A-Za-z0-9]+}'
 
@@ -44,6 +46,8 @@ func Init(globalOptionsFunc app.AppOptionCreator, root *mux.Router) *API {
 
 	api.BaseRoutes.Auth = api.BaseRoutes.ApiRoot.PathPrefix("/authentication").Subrouter()
 
+	api.BaseRoutes.Audit = api.BaseRoutes.ApiRoot.PathPrefix("/audit_logs").Subrouter()
+
 	api.BaseRoutes.Users = api.BaseRoutes.ApiRoot.PathPrefix("/users").Subrouter()
 	api.BaseRoutes.User = api.BaseRoutes.ApiRoot.PathPrefix("/users/{user_id:[a-f0-9]+}").Subrouter()
 
@@ -61,6 +65,7 @@ func Init(globalOptionsFunc app.AppOptionCreator, root *mux.Router) *API {
 	api.InitAuthorization()
 	api.InitPermission()
 	api.InitRole()
+	api.InitAudit()
 
 	root.Handle("/api/v1/{anything:.*}", http.HandlerFunc(api.Handle404))
 	return api

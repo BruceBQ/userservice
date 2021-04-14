@@ -17,21 +17,21 @@ const (
 
 type User struct {
 	ID                 string                 `json:"id,omitempty" bson:"_id,omitempty"`
-	Email              string                 `json:"email"`
-	Phone              string                 `json:"phone"`
-	Name               string                 `json:"name"`
-	Description        string                 `json:"description"`
+	Email              string                 `json:"email,omitempty"`
+	Phone              string                 `json:"phone,omitempty"`
+	Name               string                 `json:"name,omitempty"`
+	Description        string                 `json:"description,omitempty"`
 	Password           string                 `json:"password,omitempty" bson:"password,omitempty"`
-	Workplace          string                 `json:"workplace" bson:"workplace"`
+	Workplace          string                 `json:"workplace,omitempty" bson:"workplace,omitempty"`
 	RoleID             string                 `json:"roleId,omitempty" bson:"role_id,omitempty"`
 	Role               *Role                  `json:"role,omitempty" bson:"role,omitempty"`
-	Cameras            []string               `json:"cameras" bson:"cameras"`
+	Cameras            []string               `json:"cameras,omitempty" bson:"cameras,omitempty"`
 	CameraDetail       map[string]interface{} `json:"cameraDetail,omitempty" bson:"cameraDetail,omitempty"`
 	LastPasswordUpdate int64                  `json:"lastPasswordUpdate,omitempty" bson:"last_password_update,omitempty"`
 	CreatedAt          int64                  `json:"createdAt,omitempty" bson:"created_at,omitempty"`
 	UpdatedAt          int64                  `json:"updatedAt,omitempty" bson:"updated_at,omitempty"`
 	Token              string                 `json:"token,omitempty"`
-	BuiltIn            bool                   `json:"builtin" bson:"builtin"`
+	BuiltIn            bool                   `json:"builtin,omitempty" bson:"builtin,omitempty"`
 }
 
 type UserSlice []*User

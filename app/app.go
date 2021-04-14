@@ -25,6 +25,8 @@ func New(options ...AppOption) *App {
 
 func (a *App) InitServer() {
 	a.srv.AppInitializedOnce.Do(func() {
+		// a.InitJobs()
+		// a.Srv().RunJobs()
 	})
 }
 
@@ -42,4 +44,13 @@ func (a *App) Session() *model.Session {
 
 func (a *App) SetSession(s *model.Session) {
 	a.session = *s
+}
+
+func (a *App) InitJobs() {
+	if jobsAuditInterface != nil {
+		a.srv.Jobs.AuditJob = jobsAuditInterface(a)
+	}
+
+	// a.srv.Jobs.InitWorkers()
+	// a.srv.Jobs.InitSchedulders()
 }

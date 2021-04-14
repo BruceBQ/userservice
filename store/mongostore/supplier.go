@@ -18,6 +18,7 @@ type MongoSupplierStores struct {
 	permission store.PermissionStore
 	role       store.RoleStore
 	session    store.SessionStore
+	audit      store.AuditStore
 }
 
 type MongoSupplier struct {
@@ -41,6 +42,7 @@ func NewMongoSupplier(settings model.MongoSettings) *MongoSupplier {
 	supplier.stores.permission = newMongoPermissionStore(supplier)
 	supplier.stores.role = newMongoRoleStore(supplier)
 	supplier.stores.session = newMongoSessionStore(supplier)
+	supplier.stores.audit = newMongoAuditStore(supplier)
 
 	return supplier
 }
@@ -59,7 +61,6 @@ func setupConnection(setting *model.MongoSettings) *mongo.Client {
 	} else {
 		uri += *setting.Address
 	}
-	fmt.Printf("MongoDB URI: %s \n", uri)
 
 	clientOptions := options.Client().ApplyURI(uri)
 	clientOptions.SetDirect(true)
@@ -94,4 +95,8 @@ func (ms *MongoSupplier) Role() store.RoleStore {
 
 func (ms *MongoSupplier) Session() store.SessionStore {
 	return ms.stores.session
+}
+
+func (ms *MongoSupplier) Audit() store.AuditStore {
+	return ms.stores.audit
 }

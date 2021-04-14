@@ -8,4 +8,5 @@ type MongoStore interface {
 	Page() store.PageStore
 	Permission() store.PermissionStore
 	Role() store.RoleStore
+	Audit() store.AuditStore
 }

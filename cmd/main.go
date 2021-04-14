@@ -3,6 +3,8 @@ package main
 import (
 	"os"
 	"userservice/cmd/commands"
+
+	_ "userservice/imports"
 )
 
 func main() {

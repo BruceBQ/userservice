@@ -120,3 +120,34 @@ func (ps MongoPermissionStore) GetByName(name string) (*model.Permission, error)
 
 	return &permission, nil
 }
+
+func (ps MongoPermissionStore) GetFilterAudit() ([]*model.Permission, error) {
+	project := bson.D{{
+		Key: "$project", Value: bson.D{
+			{Key: "_id", Value: 0},
+			{Key: "name", Value: 1},
+			{Key: "displayName", Value: 1},
+		},
+	}}
+
+	cursor, err := ps.Db.Collection(ps.CollectionName).Aggregate(context.Background(), mongo.Pipeline{project})
+	if err != nil {
+		return nil, err
+	}
+
+	var permissions []*model.Permission
+	for cursor.Next(context.Background()) {
+		var permission model.Permission
+		err := cursor.Decode(&permission)
+		if err != nil {
+			return nil, err
+		}
+		permissions = append(permissions, &permission)
+	}
+
+	if permissions == nil {
+		permissions = make([]*model.Permission, 0)
+	}
+
+	return permissions, nil
+}

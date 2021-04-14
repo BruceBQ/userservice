@@ -1,0 +1,1 @@
+GET http://127.0.0.1:9007/api/v1/audit_logs

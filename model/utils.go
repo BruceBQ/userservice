@@ -48,6 +48,17 @@ func MapFromJson(data io.Reader) map[string]string {
 	}
 }
 
+func MapInterfaceFromJson(data io.Reader) map[string]interface{} {
+	decoder := json.NewDecoder(data)
+
+	var objmap map[string]interface{}
+	if err := decoder.Decode(&objmap); err != nil {
+		return make(map[string]interface{})
+	}
+	return objmap
+
+}
+
 func NewAppError(where string, id string, message string, params map[string]interface{}, details string, status int) *AppError {
 	ap := &AppError{}
 	ap.Id = id
@@ -119,4 +130,8 @@ func IsMongoId(id string) bool {
 
 func GetMillis() int64 {
 	return time.Now().UnixNano() / int64(time.Millisecond)
+}
+
+func GetMillisFromTime(moment *time.Time) int64 {
+	return moment.UnixNano() / int64(time.Millisecond)
 }

@@ -30,7 +30,7 @@ db.permissions.insertMany([
   { name: "create_violation", displayName: "Thêm vi phạm" },
   { name: "get_violations", displayName: "Lấy danh sách vi phạm", description: "" },
   { name: "approve_violation", displayName: "Duyệt vi phạm", description: "" },
-  { name: "upapprove_violation", displayName: "Bỏ duyệt vi phạm vi phạm", description: "" },
+  { name: "unapprove_violation", displayName: "Bỏ duyệt vi phạm", description: "" },
   { name: "edit_violation", displayName: "Chỉnh sửa thông tin vi phạm", description: "" },
   { name: "delete_violations", displayName: "Xóa vi phạm", description: "" },
   { name: "export_violation_report", displayName: "Xuất biên bản vi phạm", description: "" },
@@ -72,7 +72,8 @@ db.permissions.insertMany([
   { name: "update_user", displayName: "Sửa thông tin người dùng", description: "" },
   { name: "delete_user", displayName: "Xóa người dùng", description: "" },
 
-  
+  // Audit logs
+  {name: "get_audit_logs", displayName: "Xem nhật ký chỉnh sửa", description: ""}
 
   // Parking Fee ???
 //   { name: "fee", displayName: "Quản lý thu phí", description: "" },

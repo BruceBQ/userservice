@@ -22,10 +22,10 @@ func (api *API) InitUser() {
 }
 
 func createUser(c *Context, w http.ResponseWriter, r *http.Request) {
-	if !c.App.UserHasPermissionTo(r.Header.Get("user_id"), model.PERMISSION_GET_USERS) {
-		c.SetPermissionError(model.PERMISSION_CREATE_USER)
-		return
-	}
+	// if !c.App.UserHasPermissionTo(r.Header.Get("user_id"), model.PERMISSION_GET_USERS) {
+	// 	c.SetPermissionError(model.PERMISSION_CREATE_USER)
+	// 	return
+	// }
 
 	user := model.UserFromJSON(r.Body)
 

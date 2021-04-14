@@ -115,6 +115,7 @@ func (a *App) GetSession(token string) (*model.Session, *model.AppError) {
 	if session.IsExpired() {
 		return nil, model.NewAppError("GetSession", "app.context.expired_token", "Phiên hết hạn", nil, "session is expired", http.StatusUnauthorized)
 	}
+
 	a.AddSessionToCache(session)
 	return session, nil
 }

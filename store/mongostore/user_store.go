@@ -388,3 +388,33 @@ func (us MongoUserStore) DeleteCameraFromUser(cameraId string) error {
 
 	return err
 }
+
+func (us MongoUserStore) GetFilterAudit() ([]*model.User, error) {
+	project := bson.D{{
+		Key: "$project", Value: bson.D{
+			{Key: "name", Value: 1},
+		},
+	}}
+
+	cursor, err := us.Db.Collection(us.CollectionName).Aggregate(context.Background(), mongo.Pipeline{project})
+	if err != nil {
+		return nil, err
+	}
+
+	var users []*model.User
+
+	for cursor.Next(context.Background()) {
+		var user model.User
+		err := cursor.Decode(&user)
+		if err != nil {
+			return nil, err
+		}
+		users = append(users, &user)
+	}
+
+	if users == nil {
+		users = make([]*model.User, 0)
+	}
+
+	return users, nil
+}

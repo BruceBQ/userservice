@@ -40,6 +40,9 @@ db.roles.insertMany([
       get_single_post: { enabled: true },
       delete_post: { enabled: true },
       // violations
+      get_vehicletype: {enabled: true}, 
+      upload_file: {enabled: true},
+      create_violation: { enabled: true},
       get_violations: { enabled: true },
       approve_violation: { enabled: true },
       unapprove_violation: { enabled: true },

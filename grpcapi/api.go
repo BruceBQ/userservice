@@ -3,8 +3,8 @@ package grpcapi
 import (
 	"context"
 	"errors"
-	"fmt"
 	"userservice/app"
+	"userservice/model"
 	pb "userservice/pb"
 )
 
@@ -20,8 +20,6 @@ func Init(s *app.Server) *API {
 }
 
 func (api *API) SessionHasPermissionTo(ctx context.Context, data *pb.Session) (*pb.AuthorizationResult, error) {
-	fmt.Print("Receive grpc request")
-
 	err := api.App.MakeAuthenticationError()
 
 	if data.Token == "" || data.UserId == "" {
@@ -69,6 +67,7 @@ func (api *API) GetCamerasByUserId(ctx context.Context, data *pb.UserId) (*pb.Ca
 	if err != nil {
 		return nil, errors.New(err.ToJson())
 	}
+
 	return &pb.CameraList{Cameras: cameras}, nil
 }
 
@@ -79,4 +78,19 @@ func (api *API) DeleteCameraFromUser(ctx context.Context, data *pb.CameraId) (*p
 	}
 
 	return &pb.Empty{}, nil
+}
+
+func (api *API) LogAudit(ctx context.Context, data *pb.AuditData) (*pb.String, error) {
+	audit := model.Audit{
+		UserID:         data.UserId,
+		PermissionName: data.PermissionName,
+		Data:           data.Data,
+	}
+
+	err := api.App.SaveAudit(&audit)
+	if err != nil {
+		return nil, errors.New(err.ToJson())
+	}
+
+	return &pb.String{Response: "OK"}, nil
 }

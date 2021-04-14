@@ -11,6 +11,7 @@ type Store interface {
 	Permission() PermissionStore
 	Role() RoleStore
 	Session() SessionStore
+	Audit() AuditStore
 }
 
 type UserStore interface {
@@ -25,6 +26,7 @@ type UserStore interface {
 	Delete(string) error
 	GetRolePermission(string) (*model.User, error)
 	DeleteCameraFromUser(string) error
+	GetFilterAudit() ([]*model.User, error)
 }
 
 type SocialUserStore interface {
@@ -45,6 +47,7 @@ type PermissionStore interface {
 	GetAdmin() ([]*model.Permission, error)
 	GetPublic() ([]*model.Permission, error)
 	GetByName(string) (*model.Permission, error)
+	GetFilterAudit() ([]*model.Permission, error)
 }
 
 type RoleStore interface {
@@ -62,4 +65,11 @@ type SessionStore interface {
 	UpdateLastActivityAt(string, int64) error
 	UpdateExpiresAt(string, int64) error
 	Delete(string) error
+}
+
+type AuditStore interface {
+	Get(before int64, page int, userId string, permission string) ([]*model.Audit, error)
+	Save(*model.Audit) error
+	SaveMany(model.Audits) error
+	Count(int64, string, string) (int64, error)
 }
